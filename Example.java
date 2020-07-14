@@ -3,8 +3,7 @@ package com.example;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
-
-import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.net.URL;
@@ -12,7 +11,7 @@ import java.io.OutputStream;
 import java.util.Random;
 
 public class Example implements HttpFunction {
-    private final BufferedImage[] images = new BufferedImage[]{
+    private final RenderedImage[] images = new RenderedImage[]{
             getImage("https://scontent.fcgb1-1.fna.fbcdn.net/v/t1.0-9/108679199_102795501515736_1005443514310814088_n.jpg?_nc_cat=100&_nc_sid=8024bb&_nc_ohc=h9i4zVTVe6kAX_VG5y7&_nc_ht=scontent.fcgb1-1.fna&oh=a3a145b6c2425fe9eb4185f6ff51087e&oe=5F337E9F"),
             getImage("https://scontent.fcgb1-1.fna.fbcdn.net/v/t1.0-9/109121327_102795561515730_502558351292667285_n.jpg?_nc_cat=103&_nc_sid=8024bb&_nc_ohc=bl0byXMIMAoAX9GQpaE&_nc_ht=scontent.fcgb1-1.fna&oh=303c2e54ecb9d2c9e0ca7213f798849b&oe=5F32610A"),
             getImage("https://scontent.fcgb1-1.fna.fbcdn.net/v/t1.0-9/108912600_102795578182395_4549291850005123040_n.jpg?_nc_cat=109&_nc_sid=8024bb&_nc_ohc=QZU1Whsf-aAAX8zmLPK&_nc_ht=scontent.fcgb1-1.fna&oh=289fb6ff92846aeb51bc4c2b4a200862&oe=5F334EF8"),
@@ -35,18 +34,18 @@ public class Example implements HttpFunction {
         response.appendHeader("Expires", "0");
         response.appendHeader("Surrogate-Control", "no-store");
         response.setContentType("image/jpeg");
-        BufferedImage image = getRandomImage();
+        RenderedImage image = getRandomImage();
         ImageIO.write(image, "jpeg", out);
         out.close();
     }
 
-    private BufferedImage getImage(String urlString) throws IOException {
+    private RenderedImage getImage(String urlString) throws IOException {
         URL url = new URL(urlString);
-        BufferedImage image = ImageIO.read(url.openStream());
+        RenderedImage image = ImageIO.read(url.openStream());
         return image;
     }
 
-    private BufferedImage getRandomImage() {
+    private RenderedImage getRandomImage() {
         int i = generator.nextInt(images.length);
         return images[i];
     }
